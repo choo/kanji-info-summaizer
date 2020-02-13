@@ -56,6 +56,8 @@ $ wget https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/pdf
 $ pdftotext ./data/official/joyokanjihyo_20101130.pdf -f 11 -l 161 -nopgbrk -raw ./data/official/joyokanjihyo.txt
 ```
 
+### postprocess
+- correct indentation of first approx.) 20 characters
 
 
 Wikitionary 解析
