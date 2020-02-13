@@ -46,6 +46,18 @@ cf.) https://ja.wikipedia.org/wiki/JIS_X_0208
     - 弌 など
 
 
+Extract joyo kanji information from PDF
+----------------------------------------
+
+- [政府による公式の常用漢字表](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/pdf/joyokanjihyo_20101130.pdf)
+
+```
+$ wget https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/pdf/joyokanjihyo_20101130.pdf -P ./data/official
+$ pdftotext ./data/official/joyokanjihyo_20101130.pdf -f 11 -l 161 -nopgbrk -raw ./data/official/joyokanjihyo.txt
+```
+
+
+
 Wikitionary 解析
 ================
 
