@@ -9,9 +9,10 @@
 JIS X 0208 での漢字コード範囲
 =============================
 
-cf.) https://ja.wikipedia.org/wiki/JIS_X_0208
-     http://www.shuiren.org/chuden/teach/code/main4.htm
-     [JIS X 0208 コード表](http://www.asahi-net.or.jp/~ax2s-kmtn/ref/jisx0208.html)
+cf.)
+- https://ja.wikipedia.org/wiki/JIS_X_0208
+- http://www.shuiren.org/chuden/teach/code/main4.htm
+- [JIS X 0208 コード表](http://www.asahi-net.or.jp/~ax2s-kmtn/ref/jisx0208.html)
 
 2 byte(16 bit)
 区: 上位 byte (hex 表記での上位 2 桁)
