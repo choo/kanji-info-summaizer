@@ -38,8 +38,9 @@ def write_tsv(input_filepath, output_file):
         title  = str(title_tag.text)
         content_str = str(text_tag.text)
 
+        #''' extracted_raw_lines.tsv に書き出されないページのダンプ '''
         #if title == '美':
-        #    print(pageid, title) # 10054
+        #    print(pageid, title)
         #    #pprint(content_str)
 
         if is_kanji_page(title, content_str):
@@ -48,7 +49,8 @@ def write_tsv(input_filepath, output_file):
                 info  = _extract_info_lines(pageid, title, lines)
                 ret.append(info)
 
-                #if pageid == '10006':
+                #if pageid == '13925': # 桜 (onyomi lacks)
+                #if pageid == '188013':
                 #    pprint(lines)
 
                 #lines = [line.strip() for line in content_str.split('\n')]
@@ -149,13 +151,11 @@ def _extract_kanji_cat(lines, category):
 
 
 def _extract_yomi(pageid, title, lines, yomi):
-    '''
-        '音読', '訓読' と送り仮名なしで指定されることは見出しとしては存在しない
-    '''
+    ''' '音読', '訓読' と送り仮名なし表記は見出しとしては存在しない '''
     ret = None
     s = -1
     for i, l in enumerate(lines):
-        if s < 0 and re.match(r'\*\*?\s?(?:\[\[)?' + yomi, l):
+        if s < 0 and (re.match(r'\*\*?\s?(?:\[\[)?' + yomi, l)):
             if ret is not None:
                 if pageid == '13094' or pageid == '14935':
                     ''' 13094:生(訓読み表外)、14935:糸(旧字体の訓読み) は '''
@@ -164,8 +164,9 @@ def _extract_yomi(pageid, title, lines, yomi):
                 print('\n'.join([' ********************* ', ret, l]))
                 raise Exception("there's already {} ".format(yomi))
             s = i
-        elif s >= 0 and (not l or re.match(r'==', l) or not re.match(r'\*\*', l)):
-            ''' 空行か == 始まりか ** 始まりでなければ終わり  '''
+        elif s >= 0 and (not l or re.match(r'==', l) or
+                         not re.match(r'\*[\*\:]', l)):
+            ''' 空行か == 始まりか (** か *: か :[[)始まりでなければ終わり  '''
             ret = ','.join(lines[s:i])
             s = -1
     if s > 0 and ret is None:

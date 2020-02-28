@@ -31,18 +31,18 @@ def check_data(results):
     for rec in results:
         if rec['joyo'] > 0:
             joyo_count += 1
-        if rec['edu_year'] > 0:
+        if 0 < rec['edu_year'] < 7:
             edu_kanjis[rec['edu_year'] - 1].append(rec['title'])
 
-    print(' JOYO: {}'.format(joyo_count))
-    #pprint(edu_kanjis)
+    ##print(' JOYO: {}'.format(joyo_count))
+    ###pprint(edu_kanjis)
 
-    for i in range(6):
-        lacks, extras = _check_lack_extras(kanjis[i], edu_kanjis[i])
-        print(' ------- {} --------- '.format(i))
-        print(sorted(lacks), sorted(extras))
-        print('{} / {}'.format(len(edu_kanjis[i]), len(kanjis[i])))
-        print()
+    ##for i in range(6):
+    ##    lacks, extras = _check_lack_extras(kanjis[i], edu_kanjis[i])
+    ##    print(' ------- {} --------- '.format(i))
+    ##    print(sorted(lacks), sorted(extras))
+    ##    print('{} / {}'.format(len(edu_kanjis[i]), len(kanjis[i])))
+    ##    print()
 
 
 def _check_lack_extras(a, b):
