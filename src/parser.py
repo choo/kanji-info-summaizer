@@ -57,12 +57,13 @@ def _check_lack_extras(a, b):
     return lacks, extras
 
 
-
-if __name__ == '__main__':
+def main():
     if FORCE_EXTRACT_LINE or not os.path.exists(MIDDLE_RESULT):
         line_extractor.write_tsv(INPUT_FILEPATH, MIDDLE_RESULT)
     extracted = fsutils.read_csv(MIDDLE_RESULT)
     results = info_extractor.write_tsv(extracted, RESULT_PATH)
-
     check_data(results)
 
+
+if __name__ == '__main__':
+    main()
