@@ -5,8 +5,8 @@ from pprint import pprint
 from normalizer import Normalizer
 
 
-KUN_EXCEPTION_PATH = './data/kun_exceptions.tsv'
-ON_EXCEPTION_PATH = './data/on_exceptions.tsv'
+KUN_EXCEPTION_PATH = '../data/input/other/kun_exceptions.tsv'
+ON_EXCEPTION_PATH  = '../data/input/other/on_exceptions.tsv'
 
 def write_tsv(records, output_path):
     normalizer = Normalizer(hira_kata=True, kogaki_dakuon=True)

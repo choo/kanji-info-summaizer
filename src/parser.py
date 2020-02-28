@@ -7,16 +7,16 @@ from pprint import pprint
 import line_extractor, info_extractor
 
 
-INPUT_FILEPATH = '../data/jawiktionary-latest-pages-articles.xml'
-MIDDLE_RESULT = '../data/extrated_raw_lines.tsv'
-RESULT_PATH = '../data/extrated.tsv'
+INPUT_FILEPATH = '../data/input/wiki/jawiktionary-latest-pages-articles.xml'
+MIDDLE_RESULT = '../data/output/extrated_raw_lines.tsv'
+RESULT_PATH = '../data/output/extrated.tsv'
 
 FORCE_EXTRACT_LINE = False
 #FORCE_EXTRACT_LINE = True
 
 
 def get_flatten_kanji_list():
-    json_content = fsutils.read_json('../data/kanji_elm_school.json')
+    json_content = fsutils.read_json('../data/input/other/kanji_elm_school.json')
     ret = []
     for kanjis in json_content:
         for k in kanjis:
@@ -25,7 +25,7 @@ def get_flatten_kanji_list():
 
 
 def check_data(results):
-    kanjis = fsutils.read_json('../data/kanji_elm_school.json')
+    kanjis = fsutils.read_json('../data/input/other/kanji_elm_school.json')
     joyo_count = 0
     edu_kanjis = [[] for _ in range(6)]
     for rec in results:

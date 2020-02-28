@@ -7,11 +7,12 @@ from pprint import pprint
 import char_utils
 from normalizer import Normalizer
 
-ETLCDB_CHAR_CODES_FILE = '../data/etlcdb_codes.txt'
-JOYO_KANJI_PARSED_JSON = '../data/official/kanji_joyo.json'
-WIKTIONARY_PARSED_TSV  = '../data/extrated.tsv'
+ETLCDB_CHAR_CODES_FILE = '../data/input/other/etlcdb_codes.txt'
 
-OUTPUT_DIR = './data'
+JOYO_KANJI_PARSED_JSON = '../data/output/kanji_joyo.json'
+WIKTIONARY_PARSED_TSV  = '../data/output/extrated.tsv'
+
+OUTPUT_DIR = '../data/output'
 
 normalizer = Normalizer(hira_kata=True)
 
