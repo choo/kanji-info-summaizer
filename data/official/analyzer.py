@@ -4,6 +4,7 @@ from char_utils import is_kanji
 from pprint import pprint
 
 FILEPATH = 'joyokanjihyo.txt'
+OUTPUT_FILE = 'kanji_joyo.json'
 
 
 def _is_title(line):
@@ -20,49 +21,57 @@ def _is_kyujitai(line):
             line.endswith('）'))
 
 
+def calc_line_ranges(lines):
+    ret = []
+    for i, line in enumerate(lines):
+        if _is_title(line):
+            if len(ret) > 0 and not ret[-1][1]:
+                ret[-1][1] = i
+            ret.append([i, None])
+        elif line.startswith('03初_改定常用'):
+            ret[-1][1] = i - 1
+    return ret
+
+
 def main():
     ret = []
     lines = fsutils.read_lines(FILEPATH)
-    mark_indices = []
-    for i, line in enumerate(lines):
-        if _is_title(line):
-            if len(mark_indices) > 0 and not mark_indices[-1]['end']:
-                mark_indices[-1]['end'] = i
-            mark_indices.append({'start': i, 'end': None})
-        elif line.startswith('03初_改定常用'):
-            mark_indices[-1]['end'] = i - 1
-    for tmp in mark_indices:
-        i = tmp['start']
-        title = lines[i].strip()
-        kyujitai = ''
+    line_ranges = calc_line_ranges(lines)
+
+    for i, end in line_ranges:
+        tmp = {'title': lines[i].strip(), 'joyo_yomis': [], 'remarks': ''}
         if _is_kyujitai(lines[i + 1]):
             kyujitai = lines[i + 1].strip()
             kyujitai = kyujitai.replace('（', '').replace('）', '')
+            tmp['kyujitai'] = kyujitai
             i += 1
-        yomis, provs = [], []
-        for idx in range(i + 1, tmp['end']):
+
+        for idx in range(i + 1, end):
+            ''' rest of lines '''
             line = lines[idx]
             if line.strip() == '':
                 continue
+
+            ''' 読みが記載されている行はタブで区切られているカラム数が 3 以上となる '''
             cols = [col.strip() for col in line.split('\t')]
             n = len(cols)
-            if n > 3:
-                yomis.append(cols[3])
             if n > 4:
-                provs.append(cols[4])
+                tmp['joyo_yomis'].append({'yomi': cols[3], 'prov': cols[4]})
+            elif n > 3:
+                ''' there's no line with this condition '''
+                tmp['joyo_yomis'].append({'yomi': cols[3]})
+                print(line)
+
             if n > 5:
-                plus = cols[5]
-            #if n > 6:
-            #    print(cols[6]) # nothing
-        ret.append({
-            'title': title,
-            'kyujitai': kyujitai,
-            'yomis': ','.join(yomis),
-            'provs': ','.join(provs),
-        })
-    fsutils.write_csv(ret, 'kanji_joyo.tsv')
+                tmp['remarks'] += cols[5]
+            if n > 6:
+                ''' there's no line with this condition '''
+                print(cols[6]) # nothing
+        ret.append(tmp)
+
+    fsutils.write_json(ret, OUTPUT_FILE)
+    print('{} kanjis information were written to {}'.format(len(ret), OUTPUT_FILE))
 
 
 if __name__ == '__main__':
     main()
-
