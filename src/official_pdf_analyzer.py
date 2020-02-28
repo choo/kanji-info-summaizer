@@ -3,8 +3,8 @@ import fsutils
 from char_utils import is_kanji
 from pprint import pprint
 
-FILEPATH = 'joyokanjihyo.txt'
-OUTPUT_FILE = 'kanji_joyo.json'
+INPUT_FILEPATH = '../data/input/official/joyokanjihyo.txt'
+OUTPUT_FILE = '../data/output/kanji_joyo.json'
 
 
 def _is_title(line):
@@ -35,7 +35,7 @@ def calc_line_ranges(lines):
 
 def main():
     ret = []
-    lines = fsutils.read_lines(FILEPATH)
+    lines = fsutils.read_lines(INPUT_FILEPATH)
     line_ranges = calc_line_ranges(lines)
 
     for i, end in line_ranges:
